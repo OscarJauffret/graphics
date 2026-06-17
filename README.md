@@ -1,6 +1,6 @@
 # graphics
 
-A small, reusable OpenGL scaffolding library extracted from OceanSim.
+A small, reusable OpenGL scaffolding library (extracted from OceanSim).
 Domain-agnostic infrastructure only: windowing, shader loading, and a
 fly-camera. No simulation-specific code.
 
@@ -41,4 +41,3 @@ Then:
   polling and calls the `move*` primitives.
 - Shader paths are resolved relative to the working directory. Either run
   from a known cwd or copy shaders next to the binary in your build.
-# graphics
