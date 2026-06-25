@@ -29,10 +29,12 @@ public:
     double lastY = 0.0;
 
     explicit Camera(glm::vec3 pos = glm::vec3(0.0f, 0.0f, 3.0f),
+                    float speed_ = 10.0f,
                     float yaw_   = -90.0f,
-                    float pitch_ =  0.0f)
+                    float pitch_ =  0.0f
+                    )
         : position(pos), worldUp(glm::vec3(0.0f, 1.0f, 0.0f)),
-          yaw(yaw_), pitch(pitch_) {
+          yaw(yaw_), pitch(pitch_), speed(speed_) {
         updateVectors();
     }
 
