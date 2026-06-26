@@ -59,7 +59,7 @@ private:
         glm::vec3 position = target;
         position.x += distance * cos(theta) * sin(phi);
         position.y += distance * sin(theta) * sin(phi);
-        position.x += distance * cos(phi);
+        position.z += distance * cos(phi);
 
         return position;
     }
