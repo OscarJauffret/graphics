@@ -20,7 +20,7 @@ public:
     float theta;
 
     // Mouse
-    float sensitivity = 0.1f;
+    float sensitivity = 0.01f;
     bool firstMouse = true;
     float lastX = 0.0;
     float lastY = 0.0;
@@ -41,8 +41,8 @@ public:
             firstMouse = false;
         }
 
-        float xoffset = static_cast<float>(xpos - lastX) * sensitivity;
-        float yoffset = static_cast<float>(lastY - ypos) * sensitivity; // inverted Y
+        float xoffset = (xpos - lastX) * sensitivity;
+        float yoffset = (lastY - ypos) * sensitivity; // inverted Y
         lastX = xpos;
         lastY = ypos;
 
