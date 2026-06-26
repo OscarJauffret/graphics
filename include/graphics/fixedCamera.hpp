@@ -22,8 +22,8 @@ public:
     // Mouse
     float sensitivity = 0.1f;
     bool firstMouse = true;
-    double lastX = 0.0;
-    double lastY = 0.0;
+    float lastX = 0.0;
+    float lastY = 0.0;
 
     FixedCamera(float distance_, glm::vec3 target_, float theta_ = std::numbers::pi/2, float phi_ = std::numbers::pi/3):
     distance(distance_), phi(phi_), theta(theta_), target(target_) {}
@@ -34,7 +34,7 @@ public:
     }
 
 
-    void processMouse(double xpos, double ypos) {
+    void processMouse(float xpos, float ypos) {
         if (firstMouse) {
             lastX = xpos;
             lastY = ypos;
@@ -51,8 +51,7 @@ public:
 
         if (theta > std::numbers::pi/2) theta = std::numbers::pi/2;
         if (theta < -std::numbers::pi/2) theta = -std::numbers::pi/2;
-        phi %= std::numbers::pi * 2;
-
+        phi = std::fmod(phi, static_cast<float>(std::numbers::pi * 2));
     }
 
 private:
