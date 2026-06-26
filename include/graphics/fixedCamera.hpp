@@ -25,7 +25,7 @@ public:
         computeCameraPosition();
     }
 
-    glm::mat4 updateCameraPos(glm::vec3 target) {
+    glm::mat4 getViewMatrix(glm::vec3 target) {
         return glm::lookAt(computeCameraPosition(), target, worldUp);
     }
 
