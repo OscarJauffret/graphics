@@ -33,7 +33,6 @@ public:
         return glm::lookAt(getCameraPosition(), target_, worldUp);
     }
 
-
     void processMouse(float xpos, float ypos) {
         if (firstMouse) {
             lastX = xpos;
@@ -52,6 +51,10 @@ public:
         if (theta > std::numbers::pi/2) theta = std::numbers::pi/2;
         if (theta < -std::numbers::pi/2) theta = -std::numbers::pi/2;
         phi = std::fmod(phi, static_cast<float>(std::numbers::pi * 2));
+    }
+
+    void setDistance(float distance_) {
+        distance = distance_;
     }
 
 private:
@@ -75,6 +78,8 @@ private:
     glm::vec3 getCameraUp() {
         return glm::cross(getCameraDirection(), getCameraRight());
     }
+
+
 };
 
 #endif //GRAPHICS_FIXEDCAMERA_HPP
