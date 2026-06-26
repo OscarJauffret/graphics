@@ -32,24 +32,41 @@ int main() {
     // A triangle: position (xyz) + color (rgb), interleaved.
     float vertices[] = {
         // positions          // colors
-        -0.5f, -0.5f, 0.0f,   1.0f, 0.0f, 0.0f,
-         0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,
-         0.0f,  0.5f, 0.0f,   0.0f, 0.0f, 1.0f,
+        0.5f, 0.5f, 0.0f,       1.0f, 0.0f, 0.0f,
+        0.5f, -0.5f, 0.0f,      0.0f, 1.0f, 0.0f,
+        -0.5f, 0.5f, 0.0f,         0.0f, 0.0f, 1.0f,
+        -0.5f, -0.5f, 0.0f,        1.0f, 1.0f, 1.0f,
+
     };
 
-    unsigned int VAO, VBO;
+    unsigned int indices[] = {
+        0, 1, 2,
+        2, 3, 1
+    };
+
+    unsigned int VAO, VBO, EBO;
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
-    glBindVertexArray(VAO);
+    glGenBuffers(1, &EBO);
+
+    glBindVertexArray(VAO); // use current VAO for all subsequent calls
+
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
+    // Layout 0: Position
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
+
+    // Layout 1: color
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float),
                           (void*)(3 * sizeof(float)));
     glEnableVertexAttribArray(1);
-    glBindVertexArray(0);
 
+    glBindVertexArray(0);
     Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
 
     // Mouse callback routed to the camera via the window user pointer.
@@ -59,6 +76,8 @@ int main() {
             auto* cam = static_cast<Camera*>(glfwGetWindowUserPointer(w));
             cam->processMouse(x, y);
         });
+
+    glm::mat4 model =glm::mat4(1.0f);
 
     float lastFrame = 0.0f;
     bool  rHeldLastFrame = false;
@@ -84,16 +103,16 @@ int main() {
         window.clear(0.1f, 0.1f, 0.12f, 1.0f);  // clears color + depth by default
 
         shader.use();
-        glm::mat4 model = glm::rotate(glm::mat4(1.0f), now, glm::vec3(0.0f, 1.0f, 0.0f));
         glm::mat4 proj  = glm::perspective(glm::radians(45.0f),
                                            window.aspect(), 0.1f, 100.0f);
         shader.setMat4("uModel", model);
         shader.setMat4("uView", camera.getViewMatrix());
         shader.setMat4("uProj", proj);
-        shader.setFloat("uTint", 0.6f + 0.4f * std::sin(now * 2.0f));
+        shader.setFloat("uTint", 0.6f);
+
 
         glBindVertexArray(VAO);
-        glDrawArrays(GL_TRIANGLES, 0, 3);
+        glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(unsigned int), GL_UNSIGNED_INT, 0);
 
         window.swapBuffers();
         window.pollEvents();

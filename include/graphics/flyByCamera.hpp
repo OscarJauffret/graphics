@@ -11,7 +11,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <cmath>
 
-class FlyByCamera {
+class flyByCamera {
 public:
     glm::vec3 position;
     glm::vec3 front;
@@ -28,7 +28,7 @@ public:
     double lastX = 0.0;
     double lastY = 0.0;
 
-    explicit FlyByCamera(glm::vec3 pos = glm::vec3(0.0f, 0.0f, 3.0f),
+    explicit flyByCamera(glm::vec3 pos = glm::vec3(0.0f, 0.0f, 3.0f),
                     float speed_ = 10.0f,
                     float yaw_   = -90.0f,
                     float pitch_ =  0.0f
