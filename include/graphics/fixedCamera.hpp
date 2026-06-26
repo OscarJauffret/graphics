@@ -19,12 +19,40 @@ public:
     float phi;
     float theta;
 
+    // Mouse
+    float sensitivity = 0.1f;
+    bool firstMouse = true;
+    double lastX = 0.0;
+    double lastY = 0.0;
+
     FixedCamera(float distance_, glm::vec3 target_, float theta_ = std::numbers::pi/2, float phi_ = std::numbers::pi/3):
     distance(distance_), phi(phi_), theta(theta_), target(target_) {}
 
     glm::mat4 getViewMatrix(glm::vec3 target_) {
         target = target_;
         return glm::lookAt(getCameraPosition(), target_, worldUp);
+    }
+
+
+    void processMouse(double xpos, double ypos) {
+        if (firstMouse) {
+            lastX = xpos;
+            lastY = ypos;
+            firstMouse = false;
+        }
+
+        float xoffset = static_cast<float>(xpos - lastX) * sensitivity;
+        float yoffset = static_cast<float>(lastY - ypos) * sensitivity; // inverted Y
+        lastX = xpos;
+        lastY = ypos;
+
+        phi += xoffset;
+        theta += yoffset;
+
+        if (theta > std::numbers::pi/2) theta = std::numbers::pi/2;
+        if (theta < -std::numbers::pi/2) theta = -std::numbers::pi/2;
+        phi %= std::numbers::pi * 2;
+
     }
 
 private:
